@@ -1,6 +1,6 @@
 services:
   playwright:
-    image: mcr.microsoft.com/playwright:v1.60.0-jammy
+    image: mcr.microsoft.com/playwright:v1.60.0-noble
     working_dir: /app
     volumes:
       - ./:/app
@@ -11,3 +11,10 @@ services:
         yarn install &&
         yarn playwright test
       "
+
+  report:
+    image: nginx:alpine
+    ports:
+      - "8080:80"
+    volumes:
+      - ./playwright-report:/usr/share/nginx/html:ro

@@ -9,7 +9,8 @@
     "typescript": "^6.0.3"
   },
   "scripts": {
-       "e2e": "docker compose run --rm playwright"
+    "e2e": "docker compose run --rm playwright",
+    "report": "docker compose up -d report"
   },
   "dependencies": {
     "dotenv": "^17.4.2",

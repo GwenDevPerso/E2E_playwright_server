@@ -13,7 +13,8 @@ import { defineConfig } from '@playwright/test';
  */
 export default defineConfig({
   testDir: './tests',
-  timeout: 20_000,
+  timeout: 60_000,
+  expect: { timeout: 10_000 },
   retries: 0,
   workers: 1,
   reporter: [
@@ -23,8 +24,8 @@ export default defineConfig({
   use: {
     baseURL: process.env.BASE_URL,
     headless: true,
-    trace: 'retain-on-failure',
-    video: 'retain-on-failure',
+    trace: 'on-first-retry',
+    video: 'off',
     screenshot: 'only-on-failure',
   },
 

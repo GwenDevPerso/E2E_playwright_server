@@ -1,20 +1,15 @@
 services:
   playwright:
-    image: mcr.microsoft.com/playwright:v1.60.0-noble
+    build: .
     working_dir: /app
     volumes:
       - ./:/app
     environment:
       - BASE_URL=${BASE_URL}
-    command: >
-      sh -c "
-        yarn install &&
-        yarn playwright test
-      "
 
   report:
     image: nginx:alpine
     ports:
       - "8080:80"
     volumes:
-      - ./playwright-report:/usr/share/nginx/html:ro
+      - ./playwright-report:/usr/share/nginx/html

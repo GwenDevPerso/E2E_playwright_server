@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "e2e": "docker compose run --rm playwright",
-    "report": "docker compose up -d report"
+    "report": "docker compose down && docker compose up -d report"
   },
   "devDependencies": {
     "@playwright/test": "^1.60.0",

@@ -1,15 +1,16 @@
 set shell := ["bash", "-cu"]
 
-IMAGE := "my-app-e2e"
-BASE_URL := env("BASE_URL")
-PROJECT_PATH := "/opt/e2e"
+SERVER := "gwen@192.168.64.3"
+REMOTE_DIR := "E2E_playwright_server"
+LOCAL_PORT := "5009"
 
-build:
-    docker build -t {{IMAGE}} .
+test-dev:
+    ssh {{SERVER}} "cd {{REMOTE_DIR}} && BASE_URL=https://dev.expert.smartbiotic.ai yarn e2e"
 
-test:
-    docker run --rm \
-        -e BASE_URL={{BASE_URL}} \
-        -v {{PROJECT_PATH}}/playwright-report:/app/playwright-report \
-        -v {{PROJECT_PATH}}/test-results:/app/test-results \
-        {{IMAGE}}
+test-local:
+    LOCAL_IP=$(ipconfig getifaddr en0 2>/dev/null || ipconfig getifaddr en1 2>/dev/null); \
+    echo "Using LOCAL_IP=$LOCAL_IP"; \
+    ssh {{SERVER}} "cd {{REMOTE_DIR}} && BASE_URL=http://$LOCAL_IP:{{LOCAL_PORT}} yarn e2e"
+
+show-report:
+    ssh {{SERVER}} "cd {{REMOTE_DIR}} && yarn report"

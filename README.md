@@ -31,30 +31,6 @@ on the server launch (faster than ssh)
 docker pull mcr.microsoft.com/playwright:v1.60.0-noble
 ```
 
-
-<!-- ### Just 
-
-Just is use to execute commands 
-
-```bash
-curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | bash -s -- --to ~/bin
-```
-
-```bash
-echo 'export PATH="$HOME/bin:$PATH"' >> ~/.bashrc
-source ~/.bashrc
-```
-
-then you can launch 
-
-```bash
-just test-dev 
-```
-
-```bash
-just test-local
-``` -->
-
 ### Tailscale
 
 To handle the connection between the tests and local front we can use `https://tailscale.com/`,
@@ -86,14 +62,34 @@ yarn start --host 0.0.0.0
 
 by **ssh**
 
+
+### Just 
+
+Just is used to execute commands 
+
 ```bash
-ssh {user}}@{ip_server} "cd E2E_playwright_server && BASE_URL={http://ip-local or DEV_URL} yarn e2e"
+curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | bash -s -- --to ~/bin
+```
+
+```bash
+echo 'export PATH="$HOME/bin:$PATH"' >> ~/.bashrc
+source ~/.bashrc
+```
+
+then you can launch 
+
+```bash
+just test-dev 
+```
+
+```bash
+just test-local
 ```
 
 if you want to see the report available in ./playwright-report, launch this container after the build,
-in the docker-compose.yml you can find a nginx conf, the web report will be available in http://{tailscale-ip}:8080
+in the docker-compose.yml you can find a nginx conf, the web report will be available in http://{local-machine-tailscale-ip}:8080
 You need to have tailscale started
 
 ```bash
-docker compose up -d report
+just show-report
 ```

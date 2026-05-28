@@ -3,9 +3,7 @@
 ## What is used ?
 
 - playwright
-- just
-- docker
-- typescript
+- docker / docker compose v2
 - tailscale
 
 ## Install
@@ -27,7 +25,14 @@ On you local machine you need to have docker installed, same for the server
 
 We are using **mcr.microsoft.com/playwright:v1.60.0-jammy** image from playwright for the browser stability
 
-### Just 
+on the server launch (faster than ssh)
+
+```bash
+docker pull mcr.microsoft.com/playwright:v1.60.0-noble
+```
+
+
+<!-- ### Just 
 
 Just is use to execute commands 
 
@@ -48,27 +53,15 @@ just test-dev
 
 ```bash
 just test-local
-```
+``` -->
 
 ### Tailscale
 
-To handle the connection between the tests and local front we can use `https://tailscale.com/`, its a VPN that make us using the same network so we dont have to modify the BASE_URL for the server
+To handle the connection between the tests and local front we can use `https://tailscale.com/`,
 
-On the local machine
+Its mostly used to share test report with local machine so we can see it on web
 
-MAC
-```bash
-brew install --cask tailscale
-````
-
-Linux
-```bash
-brew install --cask tailscale
-```
-
-Same for the server
-
-then lauch 
+On the local machine & on the server install tailscale `https://tailscale.com/docs/how-to/quickstart`
 
 ```bash
 sudo tailscale up
@@ -88,9 +81,19 @@ launch the front
 yarn start --host 0.0.0.0
 ```
 
-then set the to the .env.local
+
+## Testing 
+
+by **ssh**
 
 ```bash
-BASE_URL= http://{local-machine-ip}:5009
+ssh {user}}@{ip_server} "cd E2E_playwright_server && BASE_URL={http://ip-local or DEV_URL} yarn e2e"
 ```
-# E2E_playwright_server
+
+if you want to see the report available in ./playwright-report, launch this container after the build,
+in the docker-compose.yml you can find a nginx conf, the web report will be available in http://{tailscale-ip}:8080
+You need to have tailscale started
+
+```bash
+docker compose up -d report
+```
